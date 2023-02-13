@@ -9,6 +9,7 @@ import { CustomInputComponent } from './custom-input.component';
 })
 export class AppComponent {
   formControl = new FormControl<string>('data');
+  otherControl = new FormControl<string>('qqqqq');
   dynamicComponet: Type<CustomInputComponent> = CustomInputComponent;
 
   // @ViewChild('content')

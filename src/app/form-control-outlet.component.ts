@@ -66,9 +66,8 @@ export class FormControlOutletComponent implements OnInit {
 
   ngOnInit(): void {
     this.createComponent();
-    console.dir(this.contentRef);
 
-   
+    console.dir(this.contentRef);
   }
 
   ngAfterViewInit() {
@@ -95,7 +94,7 @@ export class FormControlOutletComponent implements OnInit {
       this.dynamicComponent,
       {
         projectableNodes: [
-          d.rootNodes
+          d.rootNodes,
           // [this.contentRef.elementRef.nativeElement.firstChild],
           // [this.contentRef.elementRef.nativeElement.rootNodes],
         ],
@@ -103,7 +102,6 @@ export class FormControlOutletComponent implements OnInit {
         // projectableNodes: [[text]]
       }
     );
-    
 
     ngControl.valueAccessor = this.componentRef.instance;
   }

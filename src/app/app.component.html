@@ -1,19 +1,18 @@
+<p>form-control-outlet:</p>
 <div>
   <form-control-outlet
     [formControl]="formControl"
     [dynamicComponent]="dynamicComponet"
-    [contentRef]="content"
-    name="formOutletInput"
   >
-    <div style="color: red;">12341234</div>
+    <ng-container *ngIf="otherControl.value === 'ggg'; else sayOther"
+      >Lol, what are you doing d:</ng-container
+    >
+    <ng-template #sayOther>usual text</ng-template>
   </form-control-outlet>
 
-  {{ formControl.getRawValue() }}
+  <p>formControl value: {{ formControl.getRawValue() }}</p>
 </div>
 
-<!-- <ng-container #content> <p>content text</p> </ng-container> -->
-<p>old:</p>
-<ng-template #content> </ng-template>
-<!-- <ng-template>
-  <span #content class="elo">Hello</span>
-</ng-template> -->
+<br />
+<p>otherControl:</p>
+<app-custom-input [formControl]="otherControl"></app-custom-input>
