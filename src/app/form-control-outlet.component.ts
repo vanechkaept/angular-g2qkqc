@@ -1,14 +1,16 @@
 import { CommonModule } from '@angular/common';
 import {
-    AfterContentInit,
+  AfterContentInit,
   Component,
   ComponentFactoryResolver,
+  ComponentRef,
   forwardRef,
   Host,
   Injector,
   Input,
   OnInit,
   SkipSelf,
+  TemplateRef,
   Type,
   ViewChild,
   ViewContainerRef,
@@ -20,7 +22,12 @@ import { CustomInputComponent } from './custom-input.component';
 @Component({
   selector: 'form-control-outlet',
   template: `
+      <button (click)='createComponent()'> regenerate component</button>
       <ng-container #container></ng-container>
+      
+      <ng-template #templateRef>
+         <ng-content></ng-content>
+      </ng-template>
   `,
   providers: [
     {
@@ -30,11 +37,27 @@ import { CustomInputComponent } from './custom-input.component';
     },
   ],
 })
-export class FormControlOutletComponent implements OnInit, AfterContentInit {
+export class FormControlOutletComponent implements OnInit {
   @Input() dynamicComponent: Type<CustomInputComponent>;
+  @Input() contentRef: TemplateRef<Element>;
+
+  componentRef: ComponentRef<CustomInputComponent>;
 
   @ViewChild('container', { read: ViewContainerRef, static: true })
   componentContainer!: ViewContainerRef;
+
+  projectableNodes: any[][];
+
+  @ViewChild('templateRef', {
+    static: true,
+    read: TemplateRef,
+  })
+  templateRef: TemplateRef<any>;
+
+  // set templateRef(t: ViewContainerRef) {
+  //   console.log('asdasd', this.projectableNodes);
+  //   // this.projectableNodes = [t.createEmbeddedView().rootNodes];
+  // }
 
   constructor(
     public injector: Injector,
@@ -42,25 +65,46 @@ export class FormControlOutletComponent implements OnInit, AfterContentInit {
   ) {}
 
   ngOnInit(): void {
-    this._createComponent();
-  }
+    this.createComponent();
+    console.dir(this.contentRef);
 
-  ngAfterContentInit(){
    
   }
 
+  ngAfterViewInit() {
+    console.dir(this.contentRef);
+  }
 
-  private _createComponent(): void{
+  ngOnDestroy() {
+    this.componentRef.destroy();
+  }
+
+  createComponent(): void {
+    this.componentContainer.clear();
+
+    // const projectableNodes = this.contentRef.createEmbeddedView();
+    // console.dir('asd', projectableNodes);
+    // .createEmbeddedView(this.componentRef).rootNodes;
+
+    console.log('1111', this.templateRef);
+    const d = this.templateRef.createEmbeddedView({});
+    console.log(d.rootNodes);
+
     const ngControl = this.injector.get(NgControl);
-    const componentRef = this.componentContainer.createComponent(
-      this.dynamicComponent
-      // {
-      //   projectableNodes,
-      //   // projectableNodes: [[this.contentProjection?.firstChild]]
-      //   // projectableNodes: [[text]]
-      // }
+    this.componentRef = this.componentContainer.createComponent(
+      this.dynamicComponent,
+      {
+        projectableNodes: [
+          d.rootNodes
+          // [this.contentRef.elementRef.nativeElement.firstChild],
+          // [this.contentRef.elementRef.nativeElement.rootNodes],
+        ],
+        // projectableNodes: [[this.contentProjection?.firstChild]]
+        // projectableNodes: [[text]]
+      }
     );
+    
 
-    ngControl.valueAccessor = componentRef.instance;
+    ngControl.valueAccessor = this.componentRef.instance;
   }
 }

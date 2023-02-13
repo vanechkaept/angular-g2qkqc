@@ -1,4 +1,4 @@
-import { Component, Type } from '@angular/core';
+import { Component, TemplateRef, Type, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { CustomInputComponent } from './custom-input.component';
 
@@ -10,4 +10,11 @@ import { CustomInputComponent } from './custom-input.component';
 export class AppComponent {
   formControl = new FormControl<string>('data');
   dynamicComponet: Type<CustomInputComponent> = CustomInputComponent;
+
+  // @ViewChild('content')
+  // defaultTabButtonsTpl: TemplateRef<any>;
+
+  ngAfterViewInit() {
+    // console.log('defaultTabButtonsTpl ', this.defaultTabButtonsTpl);
+  }
 }

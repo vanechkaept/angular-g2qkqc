@@ -9,7 +9,6 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
       (ngModelChange)="onValueChange($event)"
       (blur)="onInputBlurred()"
     />
-
     <ng-content></ng-content>
   `,
   providers: [

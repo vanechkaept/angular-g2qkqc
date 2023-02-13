@@ -1,10 +1,19 @@
-<!-- Dynamic Input: <form-control-outlet></form-control-outlet> -->
 <div>
   <form-control-outlet
     [formControl]="formControl"
     [dynamicComponent]="dynamicComponet"
+    [contentRef]="content"
+    name="formOutletInput"
   >
+    <div style="color: red;">12341234</div>
+  </form-control-outlet>
 
-</form-control-outlet>
   {{ formControl.getRawValue() }}
 </div>
+
+<!-- <ng-container #content> <p>content text</p> </ng-container> -->
+<p>old:</p>
+<ng-template #content> </ng-template>
+<!-- <ng-template>
+  <span #content class="elo">Hello</span>
+</ng-template> -->
