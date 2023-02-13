@@ -1,2 +1,10 @@
 <!-- Dynamic Input: <form-control-outlet></form-control-outlet> -->
-hello!
+<div>
+  <form-control-outlet
+    [formControl]="formControl"
+    [dynamicComponent]="dynamicComponet"
+  >
+
+</form-control-outlet>
+  {{ formControl.getRawValue() }}
+</div>

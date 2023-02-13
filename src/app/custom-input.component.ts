@@ -1,22 +1,24 @@
-import { Component, forwardRef, HostBinding, Input } from "@angular/core";
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { Component, forwardRef, HostBinding, Input } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
-  selector: "app-custom-input",
+  selector: 'app-custom-input',
   template: `
     <input
       [ngModel]="value"
       (ngModelChange)="onValueChange($event)"
       (blur)="onInputBlurred()"
     />
+
+    <ng-content></ng-content>
   `,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => CustomInputComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class CustomInputComponent implements ControlValueAccessor {
   public value: string;

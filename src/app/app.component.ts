@@ -1,14 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, Type } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { CustomInputComponent } from './custom-input.component';
 
 @Component({
-  template: `
-  <h1>Hello from !</h1>
-  <a target="_blank" href="https://angular.io/start">
-    Learn more about Angular 
-  </a>
-`,
+  selector: 'app-component',
+  templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  value = 'Clear me';
+  formControl = new FormControl<string>('data');
+  dynamicComponet: Type<CustomInputComponent> = CustomInputComponent;
 }

@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
 import {
+    AfterContentInit,
   Component,
   ComponentFactoryResolver,
   forwardRef,
   Host,
   Injector,
   Input,
+  OnInit,
   SkipSelf,
   Type,
   ViewChild,
@@ -13,7 +15,7 @@ import {
 } from '@angular/core';
 import { ControlContainer, NgControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatInput } from '@angular/material/input';
-import { CustomInputComponent } from './custom.input';
+import { CustomInputComponent } from './custom-input.component';
 
 @Component({
   selector: 'form-control-outlet',
@@ -28,10 +30,10 @@ import { CustomInputComponent } from './custom.input';
     },
   ],
 })
-export class FormControlOutletComponent {
-  @Input() dynamicComponet: Type<CustomInputComponent>;
+export class FormControlOutletComponent implements OnInit, AfterContentInit {
+  @Input() dynamicComponent: Type<CustomInputComponent>;
 
-  @ViewChild('container', { read: ViewContainerRef })
+  @ViewChild('container', { read: ViewContainerRef, static: true })
   componentContainer!: ViewContainerRef;
 
   constructor(
@@ -39,14 +41,19 @@ export class FormControlOutletComponent {
     private viewContainerRef: ViewContainerRef
   ) {}
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
+    this._createComponent();
+  }
+
+  ngAfterContentInit(){
+   
+  }
+
+
+  private _createComponent(): void{
     const ngControl = this.injector.get(NgControl);
-    // const componentFactory =
-    //   this.componentFactoryResolver.resolveComponentFactory(
-    //     CustomInputComponent
-    //   );
     const componentRef = this.componentContainer.createComponent(
-      this.dynamicComponet
+      this.dynamicComponent
       // {
       //   projectableNodes,
       //   // projectableNodes: [[this.contentProjection?.firstChild]]
