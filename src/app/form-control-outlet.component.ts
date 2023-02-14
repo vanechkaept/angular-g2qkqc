@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {
   AfterContentInit,
+  ChangeDetectionStrategy,
   Component,
   ComponentFactoryResolver,
   ComponentRef,
@@ -22,13 +23,14 @@ import { CustomInputComponent } from './custom-input.component';
 @Component({
   selector: 'form-control-outlet',
   template: `
-      <button (click)='createComponent()'> regenerate component</button>
+    
       <ng-container #container></ng-container>
       
       <ng-template #templateRef>
          <ng-content></ng-content>
       </ng-template>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -85,9 +87,7 @@ export class FormControlOutletComponent implements OnInit {
     // console.dir('asd', projectableNodes);
     // .createEmbeddedView(this.componentRef).rootNodes;
 
-    console.log('1111', this.templateRef);
     const d = this.templateRef.createEmbeddedView({});
-    console.log(d.rootNodes);
 
     const ngControl = this.injector.get(NgControl);
     this.componentRef = this.componentContainer.createComponent(
@@ -102,6 +102,8 @@ export class FormControlOutletComponent implements OnInit {
         // projectableNodes: [[text]]
       }
     );
+
+    this.componentRef.changeDetectorRef.detectChanges();
 
     ngControl.valueAccessor = this.componentRef.instance;
   }

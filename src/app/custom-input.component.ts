@@ -9,7 +9,23 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
       (ngModelChange)="onValueChange($event)"
       (blur)="onInputBlurred()"
     />
-    <ng-content></ng-content>
+    <br/>
+    old:  
+    <div *ngIf='!checkbox'>
+    <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
+    </div>
+    <br/>
+    new:  
+    <div *ngIf='checkbox'>
+    <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
+    </div>
+    <br/>
+    <button (click)='checkbox = !checkbox'>click</button>
+    {{checkbox}}
+
+    <ng-template #buttonContent>
+      <ng-content></ng-content>
+    </ng-template>
   `,
   providers: [
     {
@@ -23,6 +39,8 @@ export class CustomInputComponent implements ControlValueAccessor {
   public value: string;
   public onChange: (value: string) => void;
   public onTouched: () => void;
+
+  public checkbox = true;
 
   public writeValue(value: string): void {
     this.value = value;
