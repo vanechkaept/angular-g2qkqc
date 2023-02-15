@@ -54,11 +54,6 @@ export class FormControlOutletComponent implements OnInit {
   })
   templateRef: TemplateRef<any>;
 
-  // set templateRef(t: ViewContainerRef) {
-  //   console.log('asdasd', this.projectableNodes);
-  //   // this.projectableNodes = [t.createEmbeddedView().rootNodes];
-  // }
-
   constructor(
     public injector: Injector,
     private viewContainerRef: ViewContainerRef
@@ -81,25 +76,13 @@ export class FormControlOutletComponent implements OnInit {
   createComponent(): void {
     this.componentContainer.clear();
 
-    // const projectableNodes = this.contentRef.createEmbeddedView();
-    // console.dir('asd', projectableNodes);
-    // .createEmbeddedView(this.componentRef).rootNodes;
-
-    console.log('1111', this.templateRef);
     const d = this.templateRef.createEmbeddedView({});
-    console.log(d.rootNodes);
 
     const ngControl = this.injector.get(NgControl);
     this.componentRef = this.componentContainer.createComponent(
       this.dynamicComponent,
       {
-        projectableNodes: [
-          d.rootNodes,
-          // [this.contentRef.elementRef.nativeElement.firstChild],
-          // [this.contentRef.elementRef.nativeElement.rootNodes],
-        ],
-        // projectableNodes: [[this.contentProjection?.firstChild]]
-        // projectableNodes: [[text]]
+        projectableNodes: [d.rootNodes],
       }
     );
 

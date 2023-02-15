@@ -11,11 +11,4 @@ export class AppComponent {
   formControl = new FormControl<string>('data');
   otherControl = new FormControl<string>('qqqqq');
   dynamicComponet: Type<CustomInputComponent> = CustomInputComponent;
-
-  // @ViewChild('content')
-  // defaultTabButtonsTpl: TemplateRef<any>;
-
-  ngAfterViewInit() {
-    // console.log('defaultTabButtonsTpl ', this.defaultTabButtonsTpl);
-  }
 }
